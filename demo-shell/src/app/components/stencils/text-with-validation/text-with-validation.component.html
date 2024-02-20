@@ -1,0 +1,25 @@
+<div class="mat-form-field-infix" style="border-bottom: 0.1em #949494 solid; width:25.25em">
+  <label class="adf-label" for="fieldID">{{field.name}}</label>
+  <table>
+    <tr>
+      <td width="95%">
+
+        <input
+          class="adf-input mat-input-element mat-form-field-autofill-control cdk-text-field-autofill-monitored ng-untouched ng-pristine ng-invalid"
+          matinput="" style="font-size: 16px" type="text" ng-reflect-input-mask="[object Object]"
+          ng-reflect-is-disabled="false" ng-reflect-model="displayValue" ng-reflect-disabled="false"
+          ng-reflect-id="fieldID" ng-reflect-type="text" ng-reflect-value="displayValue" id="fieldID"
+          [(ngModel)]="textFieldDisplayValue" aria-invalid="false" aria-required="false" (blur)="validateText()">
+
+        <span class="mat-form-field-label-wrapper"></span>
+      </td>
+      <td width="5%">
+        <span *ngIf="!isValidated" class="glyphicon glyphicon-alert" style="color:orange; font-size: 25px;"></span>
+        <span *ngIf="isValidated" class="glyphicon glyphicon-ok-sign" style="color:green; font-size: 25px;"></span>
+      </td>
+    </tr>
+  </table>
+</div>
+<div class="mat-form-field-underline ng-tns-c30-11 ng-star-inserted">
+  <span class="mat-form-field-ripple"></span>
+</div>

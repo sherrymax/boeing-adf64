@@ -1,0 +1,50 @@
+<table mat-table [dataSource]="dataSource" matSort>
+    <!-- Top-level table columns -->
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
+      <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+    </ng-container>
+  
+    <!-- Other top-level columns -->
+  
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="row.expanded = !row.expanded">
+      <td mat-cell *matCellDef="let row"> {{row.name}} </td>
+      <!-- Other top-level columns -->
+  
+      <td mat-cell *matCellDef="let row">
+        <button mat-button (click)="toggleRow(row)">Expand</button>
+        <table mat-table [dataSource]="row.secondLevelData" matSort *ngIf="row.expanded">
+          <!-- Second-level table columns -->
+          <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
+            <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+          </ng-container>
+  
+          <!-- Other second-level columns -->
+  
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="row.expanded = !row.expanded">
+            <td mat-cell *matCellDef="let row"> {{row.name}} </td>
+            <!-- Other second-level columns -->
+  
+            <td mat-cell *matCellDef="let row">
+              <button mat-button (click)="toggleRow(row)">Expand</button>
+              <table mat-table [dataSource]="row.thirdLevelData" matSort *ngIf="row.expanded">
+                <!-- Third-level table columns -->
+                <ng-container matColumnDef="name">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
+                  <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+                </ng-container>
+  
+                <!-- Other third-level columns -->
+  
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+              </table>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>

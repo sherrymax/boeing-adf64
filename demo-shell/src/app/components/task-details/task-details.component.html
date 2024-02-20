@@ -1,0 +1,5 @@
+<div class="activiti-form-viewer" *ngIf="taskId">
+    <adf-form [taskId]="taskId" (executeOutcome)="validateForm($event)" (formCompleted)="validateForm($event)">
+        
+    </adf-form>
+</div>

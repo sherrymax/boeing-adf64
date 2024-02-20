@@ -1,0 +1,10 @@
+<a mat-fab class="app-setting-button" data-automation-id="settings" href="" routerLink="/settings">
+    <mat-icon>settings</mat-icon>
+</a>
+
+<adf-login
+    [successRoute]="'/policy-tree'"
+    [showLoginActions]="false"
+    [showRememberMe]="false"
+    copyrightText="{{ 'application.copyright' | adfAppConfig }}">
+</adf-login>

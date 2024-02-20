@@ -1,0 +1,55 @@
+<mat-slide-toggle [checked]="multiselect" (change)="toggleMultiselect()" data-automation-id="multiSelection">
+    Multiselection
+</mat-slide-toggle>
+<mat-slide-toggle [checked]="actionMenu" (change)="toggleActionMenu()" data-automation-id="actionmenu">
+    Action Menu
+</mat-slide-toggle>
+<mat-slide-toggle [checked]="contextMenu" (change)="toggleContextMenu()" data-automation-id="contextmenu">
+    Context Menu
+</mat-slide-toggle>
+<mat-slide-toggle [checked]="testingMode" (change)="toggleTestingMode()" data-automation-id="testingMode">
+    Testing Mode
+</mat-slide-toggle>
+<mat-slide-toggle [checked]="taskDetailsRedirection" (change)="toggleTaskDetailsRedirection()" data-automation-id="taskDetailsRedirection">
+    Display task details on task click
+</mat-slide-toggle>
+<mat-slide-toggle [checked]="processDetailsRedirection" (change)="toggleProcessDetailsRedirection()" data-automation-id="processDetailsRedirection">
+    Display process details on process click
+</mat-slide-toggle>
+<mat-form-field data-automation-id="selectionMode">
+    <mat-label>Selection Mode</mat-label>
+    <mat-select [(ngModel)]="selectionMode" (selectionChange)="onSelectionModeChange()">
+        <mat-option *ngFor="let option of selectionModeOptions" [value]="option.value">
+            {{ option.title }}
+        </mat-option>
+    </mat-select>
+</mat-form-field>
+<mat-card *ngIf="actionMenu || contextMenu">
+    <mat-card-header>
+      <mat-card-title>Add Action</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+        <form class="app-cloud-settings-form" [formGroup]="actionMenuForm">
+            <mat-form-field>
+                <input matInput formControlName="key" placeholder="Key">
+            </mat-form-field>
+            <mat-form-field>
+                <input matInput formControlName="title" placeholder="Title">
+            </mat-form-field>
+            <mat-form-field>
+                <input matInput formControlName="icon" placeholder="Icon">
+            </mat-form-field>
+            <mat-checkbox formControlName="visible">Visible</mat-checkbox>
+            <mat-checkbox formControlName="disabled">Disable</mat-checkbox>
+            <button mat-raised-button (click)="addAction()">Add</button>
+        </form>
+        <div *ngIf="actions.length > 0">
+            <mat-chip-list>
+                <mat-chip *ngFor="let action of actions" [removable]="true">
+                    {{action.title}}
+                    <mat-icon matChipRemove (click)="removeAction(action)">cancel</mat-icon>
+                </mat-chip>
+            </mat-chip-list>
+        </div>
+    </mat-card-content>
+</mat-card>

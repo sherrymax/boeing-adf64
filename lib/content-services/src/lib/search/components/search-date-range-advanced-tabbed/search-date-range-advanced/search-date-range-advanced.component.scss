@@ -1,0 +1,22 @@
+adf-search-date-range-advanced {
+    .adf-search-date-range-container {
+        margin-top: 20px;
+        padding: 10px;
+
+        &-row {
+            display: flex;
+            flex-direction: row;
+            padding-bottom: 15px;
+            align-items: center;
+
+            .adf-search-date-range-input-field {
+                width: 75px;
+            }
+
+            .adf-search-date-range-form-field {
+                padding-left: 10px;
+                flex: 1;
+            }
+        }
+    }
+}

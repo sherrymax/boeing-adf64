@@ -1,0 +1,59 @@
+@import 'styles/flex';
+
+.adf-error-content {
+    color: var(--adf-theme-foreground-text-color-054);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+
+    &-code {
+        margin-top: 200px;
+
+        &--small {
+            margin-top: 100px;
+            margin-bottom: 25px;
+        }
+    }
+
+    &-shadow {
+        width: 170px;
+        height: 3px;
+        opacity: 0.54;
+        box-shadow: 0 10px 15px 0 rgba(0, 0, 0, 0.39);
+        margin-bottom: 40px;
+
+        &--small {
+            width: 100px;
+        }
+    }
+
+    &-description {
+        width: 50%;
+        min-width: 250px;
+        margin-bottom: 60px;
+        line-height: 30px;
+    }
+}
+
+@include layout-bp(lt-md) {
+    .adf-error-content {
+        &-code {
+            margin-top: 100px;
+            font-size: 50px;
+            margin-bottom: 25px;
+        }
+
+        &-shadow {
+            width: 100px;
+        }
+
+        &-title {
+            font-size: var(--theme-headline-font-size);
+        }
+
+        &-description {
+            font-size: var(--theme-subheading-2-font-size);
+        }
+    }
+}

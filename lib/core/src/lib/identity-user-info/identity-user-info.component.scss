@@ -1,0 +1,123 @@
+@import 'styles/flex';
+
+.adf {
+    &-userinfo-container {
+        display: flex;
+        align-items: center;
+        padding: 0 5px;
+    }
+
+    &-userinfo-name-right {
+        flex-direction: row-reverse;
+    }
+
+    &-userinfo-name {
+        padding: 0 5px;
+        @include layout-bp(lt-md) {
+            display: none;
+        }
+    }
+
+    &-userinfo-pic {
+        background: var(--adf-identity-user-info-background);
+        display: inline-block;
+        width: var(--adf-identity-user-info-width);
+        height: var(--adf-identity-user-info-height);
+        border-radius: 100px;
+        text-align: center;
+        font-weight: bolder;
+        font-size: var(--adf-identity-user-info-font-size);
+        text-transform: uppercase;
+        vertical-align: middle;
+        line-height: var(--adf-identity-user-info-line-height);
+    }
+
+    &-userinfo-profile-container {
+        display: inline-block;
+    }
+
+    &-userinfo-menu_button.mat-button {
+        margin-right: 0;
+        border-radius: 90%;
+        padding: 0;
+        min-width: 40px;
+        height: 40px;
+    }
+
+    &-userinfo-tab .mat-tab-header {
+        align-self: center;
+        width: 100%;
+        min-width: 250px;
+    }
+
+    &-userinfo-tab .mat-tab-label {
+        flex: auto;
+        font-weight: 500;
+        font-size: var(--theme-body-1-font-size);
+        text-transform: uppercase;
+        line-height: 48px;
+        text-align: center;
+    }
+
+    &-userinfo-card-header {
+        align-items: center;
+        display: flex;
+        justify-content: stretch;
+        line-height: normal;
+        height: 100px;
+        box-sizing: border-box;
+    }
+
+    &-userinfo-card.mat-card {
+        padding: 0;
+    }
+
+    &-userinfo-supporting-text {
+        overflow: hidden;
+        padding: 32px;
+        column-count: 2;
+        display: flex;
+        flex-direction: column;
+
+        @include layout-bp(lt-sm) {
+            padding: 10px;
+        }
+    }
+
+    &-userinfo__detail-title {
+        text-overflow: ellipsis;
+    }
+
+    &-userinfo-profile-picture {
+        background: var(--adf-identity-user-info-background);
+        background-size: cover;
+        border-radius: 50%;
+        height: 80px;
+        width: 80px;
+        margin-left: 0;
+        margin-right: 8px;
+    }
+
+    &-userinfo-button-profile {
+        display: inline-block;
+        border: 0;
+        vertical-align: middle;
+    }
+
+    &-hide-tab .mat-tab-label-active {
+        display: none;
+    }
+}
+
+@media only screen and (min-device-width: 480px) {
+    .mat-menu-panel.adf-userinfo-menu {
+        max-height: 450px;
+        min-width: 450px;
+        overflow: auto;
+        padding: 0;
+    }
+}
+
+.mat-menu-panel.adf-userinfo-menu .mat-menu-content {
+    padding: 0;
+}
