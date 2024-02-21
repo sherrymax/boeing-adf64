@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 // import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Subscription } from 'rxjs';
+import { AsposeWordsCloud } from 'asposewordscloud';
 
 
 @Component({
@@ -48,17 +49,21 @@ export class ReferencesViewComponent implements OnInit {
   onFileSelected(event) {
 
     const file: File = event.target.files[0];
-    const headers = { 'Content-Type': 'multipart/form-data', 'Authorization': 'Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYmYiOjE3MDg0NjQxNzcsImV4cCI6MTcwODQ2Nzc3NywiaXNzIjoiaHR0cHM6Ly9hcGkuYXNwb3NlLmNsb3VkIiwiYXVkIjpbImh0dHBzOi8vYXBpLmFzcG9zZS5jbG91ZC9yZXNvdXJjZXMiLCJhcGkuYmlsbGluZyIsImFwaS5pZGVudGl0eSIsImFwaS5wcm9kdWN0cyIsImFwaS5zdG9yYWdlIl0sImNsaWVudF9pZCI6IjAxODNhMDYyLWEwMjktNGVlZC1hNDU5LTYwMmRiNDYwZjljNyIsImNsaWVudF9kZWZhdWx0X3N0b3JhZ2UiOiJkODM3OTM2Ny1hZDA1LTQ1NTUtYWM5Mi00YzRmOTIxNjRjNGIiLCJjbGllbnRfaWRlbnRpdHlfdXNlcl9pZCI6Ijk5MDcxNCIsInNjb3BlIjpbImFwaS5iaWxsaW5nIiwiYXBpLmlkZW50aXR5IiwiYXBpLnByb2R1Y3RzIiwiYXBpLnN0b3JhZ2UiXX0.K0t6WhzuPdL6TApT35nWvuZCsFFo685IVNwyZw_LCE1CrWpcrTWDcng7cmxvk2um_UbQDP3ppq29BxN0ILjgolbZdePNQlo7HoqlWdViYbbF9Sbt5V5yAI7v23EVm6LpFPIC_GhFMjZiyINKbUiT7wgeoFU2z3EEHeXrufeGhMgFOXaBC_b8rwOkrAJAP2WbufwtoGrBz--cfULD7KF1VBm-PhQUC1b7TRpNoysCSi8yu3qMyZA04k16lvLs6B-0x9Cw7vAMmOm2OkHi8UVsjLlD9ZWuxh1fKNvKdNOvaKAs2GqSl0wiDbYPs2-eQrT-2posyjExhslnNTEqZM-5kQ' };
+    const headers = { 'Content-Type': 'multipart/form-data', 'Authorization': 'Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYmYiOjE3MDg0ODIzODEsImV4cCI6MTcwODQ4NTk4MSwiaXNzIjoiaHR0cHM6Ly9hcGkuYXNwb3NlLmNsb3VkIiwiYXVkIjpbImh0dHBzOi8vYXBpLmFzcG9zZS5jbG91ZC9yZXNvdXJjZXMiLCJhcGkuYmlsbGluZyIsImFwaS5pZGVudGl0eSIsImFwaS5wcm9kdWN0cyIsImFwaS5zdG9yYWdlIl0sImNsaWVudF9pZCI6IjAxODNhMDYyLWEwMjktNGVlZC1hNDU5LTYwMmRiNDYwZjljNyIsImNsaWVudF9kZWZhdWx0X3N0b3JhZ2UiOiJkODM3OTM2Ny1hZDA1LTQ1NTUtYWM5Mi00YzRmOTIxNjRjNGIiLCJjbGllbnRfaWRlbnRpdHlfdXNlcl9pZCI6Ijk5MDcxNCIsInNjb3BlIjpbImFwaS5iaWxsaW5nIiwiYXBpLmlkZW50aXR5IiwiYXBpLnByb2R1Y3RzIiwiYXBpLnN0b3JhZ2UiXX0.gzwSpcitlPlYqQw0xNAi4PRwMHTiUn8H7UlivrHnu41Km2FOFci_Xew3S1WoCU2DthHbX5ir0OUVioYC-eTcsFGbO7JMkPw5KpKt7G2743bAGtCXoYgkY9eJQJQ4BikE7m4HBOJlfRCPMXObMXhWwLDU5gG0aAfCzr7kQDWSIruBjLpxVOxP4NDMkiurosoYgkQy7usVhxETXDSTUlGBCv6G2XZvVTwC5mez_LAbmgM6bb_Xu44QhLlxGVraVKj2AIElOuP84EQqDkUJhDql3e_BlQpdpG5YsMebHuIhYE4ISsKuIwtKVx9CY8ki35JaZWVkabpWu0ZiAZcMk4Ps8Q' };
     // const body = { title: 'Angular PUT Request Example' };
 
 
     if (file) {
 
+
+      console.log('File Name >>> '+file.name);
+      console.dir(file);
+
       this.fileName = file.name;
 
       const formData = new FormData();
 
-      formData.append("Document", file);
+      formData.append("document", file);
 
       // const upload$ = this.http.post("/api/thumbnail-upload", formData);
 
