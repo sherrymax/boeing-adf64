@@ -72,6 +72,7 @@ import { StencilModule } from './components/stencils/stencil.module';
 import { AnalyticsComponent } from './components/analytics/analytics.component';
 import { PolicyTreeComponent } from './components/policy-tree/policy-tree.component';
 import { BoeingPolicyTreeComponent } from './components/boeing-policy-tree/boeing-policy-tree.component';
+import { ReferencesViewComponent } from './components/references-view/references-view.component';
 
 @NgModule({
     imports: [
@@ -133,7 +134,8 @@ import { BoeingPolicyTreeComponent } from './components/boeing-policy-tree/boein
         TaskDetailsComponent,
         AnalyticsComponent,
         PolicyTreeComponent,
-        BoeingPolicyTreeComponent
+        BoeingPolicyTreeComponent,
+        ReferencesViewComponent
     ],
     providers: [
         { provide: AppConfigService, useClass: DebugAppConfigService }, // not use this service in production

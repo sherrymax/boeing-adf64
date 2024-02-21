@@ -47,6 +47,7 @@ import { TaskDetailsComponent } from './components/task-details/task-details.com
 import { AnalyticsComponent } from './components/analytics/analytics.component';
 import { BoeingPolicyTreeComponent } from  './components/boeing-policy-tree/boeing-policy-tree.component';
 import { PolicyTreeComponent } from  './components/policy-tree/policy-tree.component';
+import { ReferencesViewComponent } from './components/references-view/references-view.component';
 
 export const appRoutes: Routes = [
     { path: 'login', loadChildren: () => import('./components/login/login.module').then(m => m.AppLoginModule) },
@@ -103,6 +104,10 @@ export const appRoutes: Routes = [
             {
                 path: 'boeing-policy-tree',
                 component: BoeingPolicyTreeComponent
+            },
+            {
+                path: 'references-view',
+                component: ReferencesViewComponent
             },
             {
                 path: 'policy-tree',
