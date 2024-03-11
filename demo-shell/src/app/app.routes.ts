@@ -48,6 +48,11 @@ import { AnalyticsComponent } from './components/analytics/analytics.component';
 import { BoeingPolicyTreeComponent } from  './components/boeing-policy-tree/boeing-policy-tree.component';
 import { PolicyTreeComponent } from  './components/policy-tree/policy-tree.component';
 import { ReferencesViewComponent } from './components/references-view/references-view.component';
+import { NetworkgraphComponent } from './components/networkgraph/networkgraph.component';
+import { SectiongraphComponent } from './components/sectiongraph/sectiongraph.component';
+import { BoeingGraphComponent } from './components/boeing-graph/boeing-graph.component';
+import { GovChartsComponent } from './components/gov-charts/gov-charts.component';
+import { BoeingNgxGraphComponent } from './components/boeing-ngx-graph/boeing-ngx-graph.component';
 
 export const appRoutes: Routes = [
     { path: 'login', loadChildren: () => import('./components/login/login.module').then(m => m.AppLoginModule) },
@@ -104,6 +109,26 @@ export const appRoutes: Routes = [
             {
                 path: 'boeing-policy-tree',
                 component: BoeingPolicyTreeComponent
+            },
+            {
+                path: 'boeing-network',
+                component: NetworkgraphComponent
+            },
+            {
+                path: 'boeing-graph',
+                component: BoeingGraphComponent
+            },
+            {
+                path: 'boeing-ngx-graph',
+                component: BoeingNgxGraphComponent
+            },
+            {
+                path: 'boeing-section',
+                component: SectiongraphComponent
+            },
+            {
+                path: 'gov-charts',
+                component: GovChartsComponent
             },
             {
                 path: 'references-view',

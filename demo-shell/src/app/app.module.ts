@@ -73,6 +73,15 @@ import { AnalyticsComponent } from './components/analytics/analytics.component';
 import { PolicyTreeComponent } from './components/policy-tree/policy-tree.component';
 import { BoeingPolicyTreeComponent } from './components/boeing-policy-tree/boeing-policy-tree.component';
 import { ReferencesViewComponent } from './components/references-view/references-view.component';
+import { NetworkgraphComponent } from './components/networkgraph/networkgraph.component';
+import { SectiongraphComponent } from './components/sectiongraph/sectiongraph.component';
+import { HighchartsChartModule } from 'highcharts-angular';
+import { BoeingOrgComponent } from './components/boeing-org/boeing-org.component';
+import { BoeingGraphComponent } from './components/boeing-graph/boeing-graph.component';
+import { GovChartsComponent } from './components/gov-charts/gov-charts.component';
+import { BoeingNgxGraphComponent } from './components/boeing-ngx-graph/boeing-ngx-graph.component';
+import { NgxGraphModule } from '@swimlane/ngx-graph';
+
 
 @NgModule({
     imports: [
@@ -94,7 +103,9 @@ import { ReferencesViewComponent } from './components/references-view/references
         NgChartsModule,
         AppCloudSharedModule,
         MonacoEditorModule.forRoot(),
-        StencilModule
+        StencilModule,
+        HighchartsChartModule,
+        NgxGraphModule
     ],
     declarations: [
         AppComponent,
@@ -135,7 +146,13 @@ import { ReferencesViewComponent } from './components/references-view/references
         AnalyticsComponent,
         PolicyTreeComponent,
         BoeingPolicyTreeComponent,
-        ReferencesViewComponent
+        ReferencesViewComponent,
+        SectiongraphComponent,
+        NetworkgraphComponent,
+        BoeingOrgComponent,
+        BoeingGraphComponent,
+        GovChartsComponent,
+        BoeingNgxGraphComponent
     ],
     providers: [
         { provide: AppConfigService, useClass: DebugAppConfigService }, // not use this service in production

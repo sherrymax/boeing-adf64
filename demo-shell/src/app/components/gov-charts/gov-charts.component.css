@@ -1,0 +1,14 @@
+/* stylelint-disable block-opening-brace-space-before */
+/* stylelint-disable declaration-colon-space-after */
+/* stylelint-disable selector-class-pattern */
+.chart-container{
+  margin: auto;
+  width: 50%;
+  padding: 10px;
+}
+
+.child {
+
+    /* Center horizontally*/
+    margin: 0 auto;
+  }

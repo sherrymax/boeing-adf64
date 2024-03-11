@@ -1,0 +1,404 @@
+import { Component, OnInit, OnChanges, AfterViewInit } from '@angular/core';
+import * as Highcharts from 'highcharts';
+import HC_networkgraph from 'highcharts/modules/networkgraph';
+HC_networkgraph(Highcharts);
+
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+
+
+@Component({
+  selector: 'networkgraph',
+  templateUrl: './networkgraph.component.html',
+  styleUrls: ['./networkgraph.component.css']
+})
+export class NetworkgraphComponent implements OnInit, OnChanges, AfterViewInit {
+
+  constructor(private http: HttpClient) { 
+
+  }
+
+  acsHostName = 'http://ec2-54-152-185-130.compute-1.amazonaws.com';
+  globalSearchUrl = this.acsHostName + "/alfresco/api/-default-/public/search/versions/1/search";
+  // globalSearchUrl = "http://rwilds741.alfdemo.com/alfresco/api/-default-/public/search/versions/1/search";
+
+  
+  Highcharts: typeof Highcharts = Highcharts;
+  chartOptions: Highcharts.Options = {};
+  chartOptions2: Highcharts.Options = {
+    colors: ['#058DC7', '#50B432', '#ED561B', '#DDDF00', '#24CBE5', '#64E572', '#FF9655', '#FFF263', '#6AF9C4'],
+    title: {
+      text: "Boeing Writings - Network Graph Diagram"
+    },
+
+    chart: {
+      type: 'networkgraph',
+      height: '1000',
+      width: '1500'
+    },
+
+    plotOptions: {
+
+      networkgraph: {
+        // allowPointSelect: true,
+        // clip: true,
+        // lineWidth: 2000,
+
+        dataLabels: {
+          enabled: true,
+          animation: true,
+          borderRadius: 200,
+          textPath: {
+            enabled: true
+          },
+          linkFormat: '',
+          allowOverlap: true
+        },
+        link: {
+          color: 'red',
+          dashStyle: 'LongDash'
+        },
+        keys: ['from', 'to'],
+        layoutAlgorithm: {
+          enableSimulation: false,
+          linkLength: 25,
+          friction: -0.9,
+          initialPositions: "random",
+          maxIterations: 2000,
+          type: 'reingold-fruchterman'
+        }
+      }
+    },
+
+    // loadingOptions:{
+    //   style:"highcharts-loading"
+    // },
+
+    series: [
+      {
+        showInLegend: false,
+        allowPointSelect: false,
+        draggable: true,
+        marker: {
+          radius: 30
+        },
+        type: 'networkgraph',
+        dataLabels: {
+          enabled: true
+        },
+        showCheckbox: true,
+        showInNavigator: true,
+        nodes: [
+          {
+            id: 'aaa',
+            color: Highcharts.getOptions().colors[2]
+          },
+          {
+            id: 'bbbaaa',
+            color: Highcharts.getOptions().colors[2]
+          },
+          {
+            id: 'zzz',
+            color: Highcharts.getOptions().colors[2]
+          }
+        ],
+        data: this.getData()
+
+        // data: this.initialNodes
+
+
+        // data: this.waitAndGet()
+
+        //data: []//this.waitAndGet()
+
+      }
+    ]
+  };
+
+  getData(){
+    return [
+      {from: 'Europe',to: 'UK'}, 
+      { from: 'Europe', to: 'Poland', color: 'red', width: 4, dashStyle: 'dot' }, 
+      { from: 'Europe', to: 'Italy' }, 
+      { from: 'UK', to: 'London'}, 
+      { from: 'UK', to: 'Bristol'}, 
+      { from: 'London', to: 'London Centre'}, 
+      { from: 'Poland', to: 'Warsaw'}, 
+      { from: 'Poland', to: 'Krakow', color: 'green'}, 
+      { from: 'Italy', to: 'Roma'}, 
+      { from: 'Italy', to: 'Piza'}
+    ];
+
+    // return [["aaa", "bbb"], ["aaa", "zzz"]];
+  }
+
+  setData(){
+    this.chartOptions2.series[0]['data'] = this.getData();
+  }
+
+  buttonClicked(){
+    console.log('Button clicked');
+    this.chartOptions2.data = {};
+  }
+
+  queryText: string;
+  graphData: any;
+  graphData2: any;
+
+
+  myChart : Highcharts.Options = {
+
+    chart: {
+        type: 'networkgraph'
+    },
+
+    plotOptions: {
+        networkgraph: {
+            layoutAlgorithm: {
+                enableSimulation: true
+            }
+        }
+    },
+
+    series: [
+      {
+        type: 'networkgraph',
+        link: {
+            width: 2
+        },
+        dataLabels: {
+            enabled: true
+        },
+        data: [{
+            from: 'Europe',
+            to: 'UK'
+        }, {
+            from: 'Europe',
+            to: 'Poland',
+            color: 'red',
+            width: 4,
+            dashStyle: 'dot'
+        }, {
+            from: 'Europe',
+            to: 'Italy'
+        }, {
+            from: 'UK',
+            to: 'London'
+        }, {
+            from: 'UK',
+            to: 'Bristol'
+        }, {
+            from: 'London',
+            to: 'London Centre'
+        }, {
+            from: 'Poland',
+            to: 'Warsaw'
+        }, {
+            from: 'Poland',
+            to: 'Krakow',
+            color: 'green'
+        }, {
+            from: 'Italy',
+            to: 'Roma'
+        }, {
+            from: 'Italy',
+            to: 'Piza'
+        }],
+        nodes: [{
+            id: 'Krakow',
+            color: 'orange'
+        }, {
+            id: 'Italy',
+            color: 'black'
+        }]
+      }
+    ]
+
+};
+
+
+
+  ngOnInit(): void {
+    
+
+  }
+
+  ngAfterViewInit() {
+    // this.getCounts().then((val) => { this.graphData = val; this.createGraph(); this.createGraph2(); console.log('getcounts done'); });
+  }
+
+  ngOnChanges(): void {
+    // console.log('>>> CAPTURED AN ONCHANGE >>>');
+  }
+
+  async getCounts() {
+    var myQuery = `{
+      "query": {
+        "query": "tsg:documentNumber:'PRO-15'"
+      },
+      "include": ["aspectNames", "properties"]
+    }`;
+    const headers = new HttpHeaders().set("Content-Type", "application/json").set("Authorization", "Basic ZGVtbzpkZW1v");
+    const response = await this.http.post<any>(this.globalSearchUrl, myQuery, { headers }).toPromise();
+    const referenceDocsProperty = response['list']['entries'][0]['entry']['properties']['tsg:referenceDocuments'];
+    const myDataList = [];
+    referenceDocsProperty.forEach(element => {myDataList.push(["PRO-15", element]);});
+    console.log("myDataList", myDataList);
+    this.graphData = myDataList;
+    return myDataList;
+  }
+
+
+
+
+  createGraph2() {
+    this.graphData2 = [["aaa", "bbb"], ["aaa", "zzz"]];
+
+    this.chartOptions2 = {
+      colors: ['#058DC7', '#50B432', '#ED561B', '#DDDF00', '#24CBE5', '#64E572', '#FF9655', '#FFF263', '#6AF9C4'],
+      title: {
+        text: "Boeing Writings - Network Graph Diagram"
+      },
+  
+      chart: {
+        type: 'networkgraph',
+        height: '1000',
+        width: '1500'
+      },
+  
+      plotOptions: {
+  
+        networkgraph: {
+          // allowPointSelect: true,
+          // clip: true,
+          // lineWidth: 2000,
+  
+          dataLabels: {
+            enabled: true,
+            animation: true,
+            borderRadius: 200,
+            textPath: {
+              enabled: true
+            },
+            linkFormat: '',
+            allowOverlap: true
+          },
+          link: {
+            color: 'red',
+            dashStyle: 'LongDash'
+          },
+          keys: ['from', 'to'],
+          layoutAlgorithm: {
+            enableSimulation: false,
+            linkLength: 25,
+            friction: -0.9,
+            initialPositions: "random",
+            maxIterations: 2000,
+            type: 'reingold-fruchterman'
+          }
+        }
+      },
+  
+      // loadingOptions:{
+      //   style:"highcharts-loading"
+      // },
+  
+      series: [
+        {
+          showInLegend: false,
+          allowPointSelect: false,
+          draggable: true,
+          marker: {
+            radius: 30
+          },
+          type: 'networkgraph',
+          dataLabels: {
+            enabled: true
+          },
+          showCheckbox: true,
+          showInNavigator: true,
+          nodes: [
+            {
+              id: 'aaa',
+              color: Highcharts.getOptions().colors[2]
+            },
+            {
+              id: 'bbb',
+              color: Highcharts.getOptions().colors[2]
+            },
+            {
+              id: 'zzz',
+              color: Highcharts.getOptions().colors[2]
+            }
+          ],
+          data: [["aaa", "bbb"], ["aaa", "zzz"]]
+  
+          // data: this.initialNodes
+  
+  
+          // data: this.waitAndGet()
+  
+          //data: []//this.waitAndGet()
+  
+        }
+      ]
+    };
+  }
+
+
+  createGraph() {
+
+    this.graphData2 = [["aaa", "bbb"], ["aaa", "zzz"]];
+
+    this.chartOptions.colors = ['#058DC7', '#50B432', '#ED561B', '#DDDF00', '#24CBE5', '#64E572', '#FF9655', '#FFF263', '#6AF9C4'];
+    this.chartOptions.title = { text: "Boeing Writings - Network Graph Diagram" };
+    this.chartOptions.chart = { type: 'networkgraph', height: '1000', width: '1500' };
+    this.chartOptions.plotOptions = {};
+
+    this.chartOptions.plotOptions.networkgraph = {};
+    this.chartOptions.plotOptions.networkgraph.dataLabels = {};
+    this.chartOptions.plotOptions.networkgraph.dataLabels.textPath = {enabled: true};
+    this.chartOptions.plotOptions.networkgraph.dataLabels.enabled = true;
+    this.chartOptions.plotOptions.networkgraph.dataLabels.animation = true;
+    this.chartOptions.plotOptions.networkgraph.dataLabels.borderRadius =200;
+    this.chartOptions.plotOptions.networkgraph.dataLabels.linkFormat = '';
+    this.chartOptions.plotOptions.networkgraph.dataLabels.allowOverlap = true;
+
+    this.chartOptions.plotOptions.networkgraph.link = {};
+    this.chartOptions.plotOptions.networkgraph.link.color = 'red';
+    this.chartOptions.plotOptions.networkgraph.link.dashStyle = 'LongDash';
+
+    this.chartOptions.plotOptions.networkgraph.keys = ['from', 'to'];
+
+    this.chartOptions.plotOptions.networkgraph.layoutAlgorithm = {};
+
+    this.chartOptions.plotOptions.networkgraph.layoutAlgorithm.enableSimulation = false;
+    this.chartOptions.plotOptions.networkgraph.layoutAlgorithm.linkLength = 25;
+    this.chartOptions.plotOptions.networkgraph.layoutAlgorithm.friction = -0.9;
+    this.chartOptions.plotOptions.networkgraph.layoutAlgorithm.initialPositions = "random";
+    this.chartOptions.plotOptions.networkgraph.layoutAlgorithm.maxIterations = 2000;
+    this.chartOptions.plotOptions.networkgraph.layoutAlgorithm.type = 'reingold-fruchterman';
+
+    this.chartOptions.series = [
+      {
+        showInLegend: false,
+        allowPointSelect: false,
+        draggable: true,
+        marker: {
+          radius: 30
+        },
+        type: 'networkgraph',
+        dataLabels: {
+          enabled: true
+        },
+        showCheckbox: true,
+        showInNavigator: true,
+        nodes: [],
+        data: this.graphData2
+      }];
+  }
+
+  fetchData(){
+
+  }
+
+}

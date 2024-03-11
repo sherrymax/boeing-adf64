@@ -2,7 +2,8 @@
 @import '~@alfresco/adf-core/theming';
 @include mat.core($alfresco-typography);
 
-$primary: mat.define-palette($alfresco-accent-orange);
+// $primary: mat.define-palette($alfresco-accent-orange);
+$primary: mat.define-palette($alfresco-ecm-blue);
 $accent: mat.define-palette($alfresco-accent-purple);
 $warn: mat.define-palette($alfresco-warn);
 $theme: mat.define-light-theme(
@@ -23,7 +24,8 @@ html {
     height: 100%;
     overflow: hidden;
     font-size: mat.font-size($alfresco-typography, body-1);
-    font-family: mat.font-family($alfresco-typography);
+    // font-family: mat.font-family($alfresco-typography);
+    font-family: Helvetica,Helvetica,sans-serif;
     line-height: mat.line-height($alfresco-typography, body-1);
 }
 

@@ -16,6 +16,9 @@
  */
 
 import { Component, ViewEncapsulation } from '@angular/core';
+import { StorageService } from '@alfresco/adf-core';
+import { StyleManager } from './style-manager';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-login',
@@ -24,4 +27,28 @@ import { Component, ViewEncapsulation } from '@angular/core';
     encapsulation: ViewEncapsulation.None
 })
 export class LoginComponent {
+
+    constructor(
+        private router: Router,
+        private storageService: StorageService,
+        private styleManager: StyleManager
+        ) {
+    }
+
+    setDefaultTheme(){
+        var theme = '{"primary":"#2196f3","accent":"#ff9800","name":"ECM Blue Orange","href":"adf-blue-orange.css","isDark":false}';
+        this.storageService.setItem("docs-theme-storage-current", theme);
+        this.styleManager.setStyle('theme',JSON.parse(theme).href);
+
+        console.log('*** THEME SET ***');
+    }
+
+    onLogin() {
+        // this.getUserRoles();
+        // this.router.navigate(['/home']);
+        this.router.navigate(['/boeing-network']);
+        this.setDefaultTheme();
+        // this.router.navigate(['/files']);
+        console.dir(this);
+    }
 }

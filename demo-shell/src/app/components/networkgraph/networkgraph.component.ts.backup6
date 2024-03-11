@@ -1,0 +1,418 @@
+import { Component, OnInit, OnChanges, AfterViewInit } from '@angular/core';
+import * as Highcharts from 'highcharts';
+import HC_networkgraph from 'highcharts/modules/networkgraph';
+HC_networkgraph(Highcharts);
+
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+
+
+@Component({
+  selector: 'networkgraph',
+  templateUrl: './networkgraph.component.html',
+  styleUrls: ['./networkgraph.component.css']
+})
+export class NetworkgraphComponent implements OnInit, OnChanges, AfterViewInit {
+
+  constructor(private http: HttpClient) { 
+
+  }
+
+  acsHostName = 'http://ec2-54-152-185-130.compute-1.amazonaws.com';
+  globalSearchUrl = this.acsHostName + "/alfresco/api/-default-/public/search/versions/1/search";
+  // globalSearchUrl = "http://rwilds741.alfdemo.com/alfresco/api/-default-/public/search/versions/1/search";
+
+  updateFlag = false;
+  graphData_network = [];
+  graphData_section = [];
+
+  Highcharts: typeof Highcharts = Highcharts;
+  
+  chartOptions_network: Highcharts.Options = {
+    colors: ['#058DC7', '#50B432', '#ED561B', '#DDDF00', '#24CBE5', '#64E572', '#FF9655', '#FFF263', '#6AF9C4'],
+    title: {
+      text: "Boeing Writings - Network Graph Diagram"
+    },
+
+    chart: {
+      type: 'networkgraph',
+      height: '1000',
+      width: '1500'
+    },
+
+    plotOptions: {
+
+      networkgraph: {
+        // allowPointSelect: true,
+        // clip: true,
+        // lineWidth: 2000,
+
+        dataLabels: {
+          enabled: true,
+          animation: true,
+          borderRadius: 200,
+          textPath: {
+            enabled: true
+          },
+          linkFormat: '',
+          allowOverlap: true
+        },
+        link: {
+          color: 'red',
+          dashStyle: 'LongDash'
+        },
+        keys: ['from', 'to'],
+        layoutAlgorithm: {
+          enableSimulation: false,
+          linkLength: 25,
+          friction: -0.9,
+          initialPositions: 'random',
+          maxIterations: 2000,
+          type: 'reingold-fruchterman'
+        }
+      }
+    },
+
+    // loadingOptions:{
+    //   style:"highcharts-loading"
+    // },
+
+    series: [
+      {
+        showInLegend: false,
+        allowPointSelect: false,
+        draggable: true,
+        marker: {
+          radius: 30
+        },
+        type: 'networkgraph',
+        dataLabels: {
+          enabled: true
+        },
+        showCheckbox: true,
+        showInNavigator: true,
+        nodes: [],
+        data: this.graphData_network
+
+      }
+    ]
+  };  
+
+
+  chartOptions_section: Highcharts.Options = {
+    colors: ['#058DC7', '#50B432', '#ED561B', '#DDDF00', '#24CBE5', '#64E572', '#FF9655', '#FFF263', '#6AF9C4'],
+    title: {
+      text: "Boeing Writings - Section Graph Diagram"
+    },
+
+    chart: {
+      type: 'networkgraph',
+      height: '1000',
+      width: '1500'
+    },
+
+    plotOptions: {
+
+      networkgraph: {
+        // allowPointSelect: true,
+        // clip: true,
+        // lineWidth: 2000,
+
+        dataLabels: {
+          enabled: true,
+          animation: true,
+          borderRadius: 200,
+          textPath: {
+            enabled: true
+          },
+          linkFormat: '',
+          allowOverlap: true
+        },
+        link: {
+          color: 'red',
+          dashStyle: 'LongDash'
+        },
+        keys: ['from', 'to'],
+        layoutAlgorithm: {
+          enableSimulation: false,
+          linkLength: 25,
+          friction: -0.9,
+          initialPositions: "random",
+          maxIterations: 2000,
+          type: 'reingold-fruchterman'
+        }
+      }
+    },
+
+    // loadingOptions:{
+    //   style:"highcharts-loading"
+    // },
+
+    series: [
+      {
+        showInLegend: false,
+        allowPointSelect: false,
+        draggable: true,
+        marker: {
+          radius: 30
+        },
+        type: 'networkgraph',
+        dataLabels: {
+          enabled: true
+        },
+        showCheckbox: true,
+        showInNavigator: true,
+        nodes: [],
+        data: this.graphData_section
+      }
+    ]
+  };
+
+  
+
+
+
+  queryText: string;
+
+  ngOnInit(): void {
+    
+  }
+
+  ngAfterViewInit() {
+    // this.getNetworkNodes().then((val) => { 
+    //   this.graphData = val; 
+    //   this.updateFlag = true;
+    //   console.log('getcounts done'); 
+    // });
+  }
+
+  ngOnChanges(): void {
+    // console.log('>>> CAPTURED AN ONCHANGE >>>');
+  }
+
+  
+
+
+
+
+  // createGraph2() {
+  //   this.graphData2 = [["aaa", "bbb"], ["aaa", "zzz"]];
+
+  //   this.chartOptions2 = {
+  //     colors: ['#058DC7', '#50B432', '#ED561B', '#DDDF00', '#24CBE5', '#64E572', '#FF9655', '#FFF263', '#6AF9C4'],
+  //     title: {
+  //       text: "Boeing Writings - Network Graph Diagram"
+  //     },
+  
+  //     chart: {
+  //       type: 'networkgraph',
+  //       height: '1000',
+  //       width: '1500'
+  //     },
+  
+  //     plotOptions: {
+  
+  //       networkgraph: {
+  //         // allowPointSelect: true,
+  //         // clip: true,
+  //         // lineWidth: 2000,
+  
+  //         dataLabels: {
+  //           enabled: true,
+  //           animation: true,
+  //           borderRadius: 200,
+  //           textPath: {
+  //             enabled: true
+  //           },
+  //           linkFormat: '',
+  //           allowOverlap: true
+  //         },
+  //         link: {
+  //           color: 'red',
+  //           dashStyle: 'LongDash'
+  //         },
+  //         keys: ['from', 'to'],
+  //         layoutAlgorithm: {
+  //           enableSimulation: false,
+  //           linkLength: 25,
+  //           friction: -0.9,
+  //           initialPositions: "random",
+  //           maxIterations: 2000,
+  //           type: 'reingold-fruchterman'
+  //         }
+  //       }
+  //     },
+  
+  //     // loadingOptions:{
+  //     //   style:"highcharts-loading"
+  //     // },
+  
+  //     series: [
+  //       {
+  //         showInLegend: false,
+  //         allowPointSelect: false,
+  //         draggable: true,
+  //         marker: {
+  //           radius: 30
+  //         },
+  //         type: 'networkgraph',
+  //         dataLabels: {
+  //           enabled: true
+  //         },
+  //         showCheckbox: true,
+  //         showInNavigator: true,
+  //         nodes: [
+  //           {
+  //             id: 'aaa',
+  //             color: Highcharts.getOptions().colors[2]
+  //           },
+  //           {
+  //             id: 'bbb',
+  //             color: Highcharts.getOptions().colors[2]
+  //           },
+  //           {
+  //             id: 'zzz',
+  //             color: Highcharts.getOptions().colors[2]
+  //           }
+  //         ],
+  //         data: []
+  
+  //         // data: this.initialNodes
+  
+  
+  //         // data: this.waitAndGet()
+  
+  //         //data: []//this.waitAndGet()
+  
+  //       }
+  //     ]
+  //   };
+  // }
+
+
+  // createGraph() {
+
+  //   this.graphData2 = [["aaa", "bbb"], ["aaa", "zzz"]];
+
+  //   this.chartOptions.colors = ['#058DC7', '#50B432', '#ED561B', '#DDDF00', '#24CBE5', '#64E572', '#FF9655', '#FFF263', '#6AF9C4'];
+  //   this.chartOptions.title = { text: "Boeing Writings - Network Graph Diagram" };
+  //   this.chartOptions.chart = { type: 'networkgraph', height: '1000', width: '1500' };
+  //   this.chartOptions.plotOptions = {};
+
+  //   this.chartOptions.plotOptions.networkgraph = {};
+  //   this.chartOptions.plotOptions.networkgraph.dataLabels = {};
+  //   this.chartOptions.plotOptions.networkgraph.dataLabels.textPath = {enabled: true};
+  //   this.chartOptions.plotOptions.networkgraph.dataLabels.enabled = true;
+  //   this.chartOptions.plotOptions.networkgraph.dataLabels.animation = true;
+  //   this.chartOptions.plotOptions.networkgraph.dataLabels.borderRadius =200;
+  //   this.chartOptions.plotOptions.networkgraph.dataLabels.linkFormat = '';
+  //   this.chartOptions.plotOptions.networkgraph.dataLabels.allowOverlap = true;
+
+  //   this.chartOptions.plotOptions.networkgraph.link = {};
+  //   this.chartOptions.plotOptions.networkgraph.link.color = 'red';
+  //   this.chartOptions.plotOptions.networkgraph.link.dashStyle = 'LongDash';
+
+  //   this.chartOptions.plotOptions.networkgraph.keys = ['from', 'to'];
+
+  //   this.chartOptions.plotOptions.networkgraph.layoutAlgorithm = {};
+
+  //   this.chartOptions.plotOptions.networkgraph.layoutAlgorithm.enableSimulation = false;
+  //   this.chartOptions.plotOptions.networkgraph.layoutAlgorithm.linkLength = 25;
+  //   this.chartOptions.plotOptions.networkgraph.layoutAlgorithm.friction = -0.9;
+  //   this.chartOptions.plotOptions.networkgraph.layoutAlgorithm.initialPositions = "random";
+  //   this.chartOptions.plotOptions.networkgraph.layoutAlgorithm.maxIterations = 2000;
+  //   this.chartOptions.plotOptions.networkgraph.layoutAlgorithm.type = 'reingold-fruchterman';
+
+  //   this.chartOptions.series = [
+  //     {
+  //       showInLegend: false,
+  //       allowPointSelect: false,
+  //       draggable: true,
+  //       marker: {
+  //         radius: 30
+  //       },
+  //       type: 'networkgraph',
+  //       dataLabels: {
+  //         enabled: true
+  //       },
+  //       showCheckbox: true,
+  //       showInNavigator: true,
+  //       nodes: [],
+  //       data: this.graphData2
+  //     }];
+  // }
+
+  fetchData(){
+    this.fetchNetworkData();
+  }
+
+  fetchNetworkData(){
+    console.log('Fetching Data >>> ', this.queryText);
+
+    this.getNetworkNodes().then((val) => { 
+      this.graphData_network = val; 
+      this.chartOptions_network.series[0]['data'] = this.graphData_network;
+      this.chartOptions_section.series[0]['data'] = this.graphData_section;
+      this.updateFlag = true;
+
+      console.log('getcounts done'); 
+    });
+
+  }
+
+  async getNetworkNodes() {
+    const myNetworkDataList = [];
+    const mySectionDataList = [];
+
+    if(this.queryText != ""){
+      var myQuery = `{
+        "query": {
+          "query": "tsg:documentNumber:',${this.queryText},'"
+        },
+        "include": ["aspectNames", "properties"]
+      }`;
+      const headers = new HttpHeaders().set("Content-Type", "application/json").set("Authorization", "Basic ZGVtbzpkZW1v");
+      const response = await this.http.post<any>(this.globalSearchUrl, myQuery, { headers }).toPromise();
+      const entries = response['list']['entries'];
+      if(entries && entries[0]){
+        const referenceDocsProperty = entries[0]['entry']['properties']['tsg:referenceDocuments'];
+        if(referenceDocsProperty){
+          referenceDocsProperty.forEach(element => {myNetworkDataList.push([this.queryText, element]);});
+          this.setAsRootNode(this.chartOptions_network, this.queryText);
+        }
+
+
+        // console.log("referencesList", JSON.parse(referencesList));
+
+        var referencesListProperty = entries[0]['entry']['properties']['boeing:referencesList'];
+        if(referencesListProperty){
+          var referencesListJSON = referencesListProperty.replace(/(\\n)/g, "").replace(/(\\")/g, '"').replace(/(\\\\r)/g, "").replace(/(\\\\t)/g, " ").replace(/("{)/g, "{").replace(/(}")/g, "}");
+          var referencesList = JSON.parse(referencesListJSON);
+
+          // var referencesList = JSON.parse(entries[0]['entry']['properties']['boeing:referencesList'].replace(/(\\n)/g, "").replace(/(\\")/g, '"').replace(/(\\\\r)/g, "").replace(/(\\\\t)/g, " ").replace(/("{)/g, "{").replace(/(}")/g, "}"));
+          referencesList.forEach(element => {mySectionDataList.push([this.queryText, element['sectionName']]);});
+          referencesList.forEach(element => {mySectionDataList.push([element['sectionName'], element['hyperlinkName']]);});
+          this.setAsRootNode(this.chartOptions_section, this.queryText);
+        }
+        
+        this.graphData_network = myNetworkDataList;
+        this.graphData_section = mySectionDataList;
+      }
+    }
+    
+    return myNetworkDataList;
+  }
+
+  setAsRootNode(chartOptions, nodeName){
+    chartOptions.series[0]['nodes'] = [{
+      id: nodeName,
+      color: Highcharts.getOptions().colors[2]
+    }];
+  }
+
+
+
+}
+
+
+
+

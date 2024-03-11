@@ -3,7 +3,7 @@
 </a>
 
 <adf-login
-    [successRoute]="'/policy-tree'"
+    (success)="onLogin()"
     [showLoginActions]="false"
     [showRememberMe]="false"
     copyrightText="{{ 'application.copyright' | adfAppConfig }}">

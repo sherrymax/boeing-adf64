@@ -1,0 +1,684 @@
+import { Component, OnInit, OnChanges, AfterViewInit } from '@angular/core';
+import * as Highcharts from 'highcharts';
+import HC_networkgraph from 'highcharts/modules/networkgraph';
+HC_networkgraph(Highcharts);
+
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+
+
+@Component({
+  selector: 'networkgraph',
+  templateUrl: './networkgraph.component.html',
+  styleUrls: ['./networkgraph.component.css']
+})
+export class NetworkgraphComponent implements OnInit, OnChanges, AfterViewInit {
+
+  constructor(private http: HttpClient) { 
+
+  }
+
+  acsHostName = 'http://ec2-54-152-185-130.compute-1.amazonaws.com';
+  globalSearchUrl = this.acsHostName + "/alfresco/api/-default-/public/search/versions/1/search";
+  // globalSearchUrl = "http://rwilds741.alfdemo.com/alfresco/api/-default-/public/search/versions/1/search";
+
+  findDocumentByDocumentNumberQuery = "";
+  findNodeIdByDocumentNumberQuery = "";
+  initialNodes = [];
+
+  Highcharts: typeof Highcharts = Highcharts;
+  Highcharts2: typeof Highcharts = Highcharts;
+
+  queryText: string;
+
+  chartOptions3: Highcharts.Options = {};
+
+  chartOptions2: Highcharts.Options = {
+    colors: ['#058DC7', '#50B432', '#ED561B', '#DDDF00', '#24CBE5', '#64E572', '#FF9655', '#FFF263', '#6AF9C4'],
+    title: {
+      text: "Boeing Writings - Network Graph Diagram"
+    },
+
+    chart: {
+      type: 'networkgraph',
+      height: '1000',
+      width: '1500'
+    },
+
+    plotOptions: {
+
+      networkgraph: {
+        // allowPointSelect: true,
+        // clip: true,
+        // lineWidth: 2000,
+
+        dataLabels: {
+          enabled: true,
+          animation: true,
+          borderRadius: 200,
+          textPath: {
+            enabled: true
+          },
+          linkFormat: '',
+          allowOverlap: true
+        },
+        link: {
+          color: 'red',
+          dashStyle: 'LongDash'
+        },
+        keys: ['from', 'to'],
+        layoutAlgorithm: {
+          enableSimulation: false,
+          linkLength: 25,
+          friction: -0.9,
+          initialPositions: "random",
+          maxIterations: 2000,
+          type: 'reingold-fruchterman'
+        }
+      }
+    },
+
+    // loadingOptions:{
+    //   style:"highcharts-loading"
+    // },
+
+    series: [
+      {
+        showInLegend: false,
+        allowPointSelect: false,
+        draggable: true,
+        marker: {
+          radius: 30
+        },
+        type: 'networkgraph',
+        dataLabels: {
+          enabled: true
+        },
+        showCheckbox: true,
+        showInNavigator: true,
+        nodes: [],
+        data: []
+
+        // data: this.initialNodes
+
+
+        // data: this.waitAndGet()
+
+        //data: []//this.waitAndGet()
+
+      }
+    ]
+  };
+
+
+  chartOptions: Highcharts.Options = {
+    colors: ['#058DC7', '#50B432', '#ED561B', '#DDDF00', '#24CBE5', '#64E572', '#FF9655', '#FFF263', '#6AF9C4'],
+    title: {
+      text: "Boeing Writings - Network Graph Diagram"
+    },
+
+    chart: {
+      type: 'networkgraph',
+      height: '1000',
+      width: '1500'
+    },
+
+    plotOptions: {
+
+      networkgraph: {
+        // allowPointSelect: true,
+        // clip: true,
+        // lineWidth: 2000,
+
+        dataLabels: {
+          enabled: true,
+          animation: true,
+          borderRadius: 200,
+          textPath: {
+            enabled: true
+          },
+          linkFormat: '',
+          allowOverlap: true
+        },
+        link: {
+          color: 'red',
+          dashStyle: 'LongDash'
+        },
+        keys: ['from', 'to'],
+        layoutAlgorithm: {
+          enableSimulation: false,
+          linkLength: 25,
+          friction: -0.9,
+          initialPositions: "random",
+          maxIterations: 2000,
+          type: 'reingold-fruchterman'
+        }
+      }
+    },
+
+    // loadingOptions:{
+    //   style:"highcharts-loading"
+    // },
+
+    series: [
+      {
+        showInLegend: false,
+        allowPointSelect: false,
+        draggable: true,
+        marker: {
+          radius: 30
+        },
+        type: 'networkgraph',
+        dataLabels: {
+          enabled: true
+        },
+        showCheckbox: true,
+        showInNavigator: true,
+        nodes: []
+        // ,
+        // data: []
+
+        // data: this.initialNodes
+
+
+        // data: this.waitAndGet()
+
+        //data: []//this.waitAndGet()
+
+      }
+    ]
+  };
+
+  createGraph(dataList) {
+    this.chartOptions3.colors = ['#058DC7', '#50B432', '#ED561B', '#DDDF00', '#24CBE5', '#64E572', '#FF9655', '#FFF263', '#6AF9C4'];
+    this.chartOptions3.title = { text: "Boeing Writings - Network Graph Diagram" };
+    this.chartOptions3.chart = { type: 'networkgraph', height: '1000', width: '1500' };
+    this.chartOptions3.plotOptions = {};
+
+    this.chartOptions3.plotOptions.networkgraph = {};
+    this.chartOptions3.plotOptions.networkgraph.dataLabels = {};
+    this.chartOptions3.plotOptions.networkgraph.dataLabels.textPath = {enabled: true};
+    this.chartOptions3.plotOptions.networkgraph.dataLabels.enabled = true;
+    this.chartOptions3.plotOptions.networkgraph.dataLabels.animation = true;
+    this.chartOptions3.plotOptions.networkgraph.dataLabels.borderRadius =200;
+    this.chartOptions3.plotOptions.networkgraph.dataLabels.linkFormat = '';
+    this.chartOptions3.plotOptions.networkgraph.dataLabels.allowOverlap = true;
+
+    this.chartOptions3.plotOptions.networkgraph.link = {};
+    this.chartOptions3.plotOptions.networkgraph.link.color = 'red';
+    this.chartOptions3.plotOptions.networkgraph.link.dashStyle = 'LongDash';
+
+    this.chartOptions3.plotOptions.networkgraph.keys = ['from', 'to'];
+
+    this.chartOptions3.plotOptions.networkgraph.layoutAlgorithm = {};
+
+    this.chartOptions3.plotOptions.networkgraph.layoutAlgorithm.enableSimulation = false;
+    this.chartOptions3.plotOptions.networkgraph.layoutAlgorithm.linkLength = 25;
+    this.chartOptions3.plotOptions.networkgraph.layoutAlgorithm.friction = -0.9;
+    this.chartOptions3.plotOptions.networkgraph.layoutAlgorithm.initialPositions = "random";
+    this.chartOptions3.plotOptions.networkgraph.layoutAlgorithm.maxIterations = 2000;
+    this.chartOptions3.plotOptions.networkgraph.layoutAlgorithm.type = 'reingold-fruchterman';
+
+    this.chartOptions3.series = [
+      {
+        showInLegend: false,
+        allowPointSelect: false,
+        draggable: true,
+        marker: {
+          radius: 30
+        },
+        type: 'networkgraph',
+        dataLabels: {
+          enabled: true
+        },
+        showCheckbox: true,
+        showInNavigator: true,
+        nodes: [],
+        data: dataList
+      }];
+      
+
+    
+  }
+
+
+  redrawGraph(dataList) {
+    console.log('INSIDE redrawGraph() ', dataList);
+
+    this.chartOptions.series[0]['data'] = [['yyy', 'zzz']];
+    this.chartOptions2.series[0]['data'] = [['yyy', 'zzz']];
+
+  }
+
+  ngAfterViewInit(){
+    var sampleData = [['onnu', 'randu']];
+    this.createGraph(sampleData);
+  }
+
+  ngOnInit() {
+
+
+
+    this.chartOptions.series[0]['data'] = [['aaa', 'bbb']];;
+    this.chartOptions2.series[0]['data'] = [['yyy', 'zzz']];
+
+    console.log('About to call getDataNodes() ');
+    this.getDataNodes().then(res => {
+      //console.dir(res);
+
+      this.mySmokeData = res;
+      console.dir(this.mySmokeData);
+      console.log('START redrawGraph()');
+      this.redrawGraph([['yyy', 'zzz']]);
+
+      var tempDataList = [['onnu', 'randu']];
+      this.redrawGraph(tempDataList);
+
+
+
+      // return [['hello2', 'felo2']];
+    });
+
+    console.log("BEFORE timeout");
+    console.dir(this.chartOptions.series[0]);
+
+    // this.chartOptions.series[0]['data'] = [['rrr', 'sss'], ['rrr', 'aaa']];
+    // this.chartOptions2.series[0]['data'] = [['yyy', 'zzz']];
+
+
+    // this.redrawGraph();
+
+
+
+
+
+    this.chartOptions.chart.events = {
+      load: function () {
+        console.log('Chart loaded');
+      },
+      click: function ($event) {
+        console.log('Chart Clicked');
+        console.dir($event);
+      }
+
+    }
+
+    // this.chartOptions.plotOptions.networkgraph.keys = ['from', 'to'];
+
+    this.chartOptions.series[0].events = {
+      click: ($event) => {
+        console.log(`Clicked on a node`, $event.point['id']);
+        var isRoot = $event.point['isRoot'];
+        var isLeaf = $event.point['isLeaf'];
+
+        console.log('isRoot >> ', isRoot);
+        console.log('isLeaf >> ', isLeaf);
+
+        // this.chartOptions.series[0]['data'] = [this.nest1, this.nest2]
+        // Perform an action here
+        if (isLeaf && confirm('Are you sure to open this document (' + $event.point['id'] + ') in new window ?')) {
+          let URL = this.acsHostName + '/ocms/Stage/controlleddocs/workspace://SpacesStore/6fb034c4-0493-4662-90b5-6e134e54f412|workspace://SpacesStore/' + $event.point['nodeId'];
+          window.open(URL);
+        } else {
+          this.initialNodes.find(
+            (node) => {
+              // console.log('node[0] = ', node[0]);
+              // console.log('$event.point["id"]', $event.point['id']);
+
+              if (node[0] == $event.point['id']) {
+                console.log('Length BEFORE >>> ', this.chartOptions.series[0]['data'].length);
+                this.chartOptions.series[0]['data'].push(node);
+                console.log('Length AFTER >>> ', this.chartOptions.series[0]['data'].length);
+                this.chartOptions.series[0]['nodes'].find(
+                  node => {
+                    if (node[0] == $event.point['id']) {
+                      node.visible = true;
+                    }
+                  }
+                );
+
+
+              }
+            }
+          )
+        }
+
+
+        // Highcharts.chart(this.chartOptions).update(this.chartOptions);
+
+        const nextNodeId = $event.point['id'];
+        console.log('nextNodeId >> ', nextNodeId);
+        // Get the next node
+        const nextNode = this.chartOptions.series[0]['data'].find(
+          node => {
+            if (node[0] == nextNodeId) {
+              console.dir(node);
+            }
+          }
+        );
+
+        console.dir(nextNode);
+        // Display the next node
+        // this.chartOptions.series[0].addPoint(nextNode);
+      }
+    };
+
+
+
+
+    // this.chartOptions.series[0]['nodes'] = [];
+    // this.fetchData();
+
+  }
+
+
+  ngOnChanges() {
+    console.log('*** SOMETHING CHANGED >>>');
+
+  }
+
+  mySmokeData = [['hello', 'felo']];
+
+
+  smokeData() {
+    this.queryText = "PRO-15";
+    // this.chartOptions.series[0]['nodes'].push(
+    //   {
+    //     id: this.queryText,
+    //     color: Highcharts.getOptions().colors[2],
+    //     isRoot: true,
+    //     isLeaf: false,
+    //     nodeId: '38f20b07-ac06-4a01-bdaf-9899569c6746'
+    //   });
+
+
+    switch (this.queryText) {
+      case 'PRO-15':
+        {
+          this.getDataNodes().then(res => {
+            console.dir(res);
+
+            this.mySmokeData = res;
+            console.dir(this.mySmokeData);
+
+            return [['hello2', 'felo2']];
+          });
+
+          setTimeout(() => {
+            console.log("Hello, world!");
+            return this.mySmokeData;
+
+          }, 20000);
+
+          return this.mySmokeData;
+          break;
+          // return [
+          //   ["PRO-15", "BPI-1"],
+          //   ["PRO-15", "POL-1"],
+          //   ["PRO-15", "POL-2"],
+          //   ["PRO-15", "PRO-6470"],
+          //   ["PRO-15", "PRO-127"],
+          //   ["PRO-15", "PRO-2424"]
+          // ];
+
+        }
+      case 'PRO-13':
+        {
+          return [
+            ["PRO-13", "BPI-1"],
+            ["PRO-13", "POL-1"],
+            ["PRO-13", "POL-2"],
+            ["PRO-13", "PRO-6470"],
+            ["PRO-13", "PRO-127"],
+            ["PRO-13", "PRO-2424"]
+          ];
+
+        }
+      default:
+        return this.mySmokeData;
+    }
+  }
+
+  smokeData2() {
+    this.queryText = "PRO-15";
+    this.chartOptions2.series[0]['nodes'].push(
+      {
+        id: this.queryText,
+        color: Highcharts.getOptions().colors[2],
+        isRoot: true,
+        isLeaf: false,
+        nodeId: '38f20b07-ac06-4a01-bdaf-9899569c6746'
+      });
+
+    switch (this.queryText) {
+      case 'PRO-15':
+        {
+          // this.getDataNodes().then(res => {myData = res; return res;});
+          // console.dir(this.getDataNodes());
+          // this.getDataNodes();
+          // console.log(this.mySmokeData.length); 
+          // return this.mySmokeData;
+
+          return [
+            ["PRO-15", "Purpose"],
+            ["PRO-15", "1. Requirements"],
+
+            ["Purpose", "PRO-5213"],
+            ["Purpose", "PRO-6608"],
+            ["Purpose", "PRO-865"],
+
+            ["1. Requirements", "PRO-6562"],
+            ["1. Requirements", "PRO-1557"],
+            ["1. Requirements", "PRO-5181"],
+            ["1. Requirements", "PRO-6523"],
+            ["1. Requirements", "PRO-6933"],
+            ["1. Requirements", "PRO-6960"],
+            ["1. Requirements", "PRO-70"],
+            ["1. Requirements", "PRO-2227"],
+            ["1. Requirements", "PRO-251"]
+          ];
+
+        }
+      case 'PRO-13':
+        {
+          return [
+            ["PRO-13", "BPI-1"],
+            ["PRO-13", "POL-1"],
+            ["PRO-13", "POL-2"],
+            ["PRO-13", "PRO-6470"],
+            ["PRO-13", "PRO-127"],
+            ["PRO-13", "PRO-2424"]
+          ];
+
+        }
+      default:
+        return this.mySmokeData;
+    }
+  }
+
+  waitAndGet() {
+    // this.getDataNodes().then((res) => {console.log("Getting all the values..."); console.dir(res); res=>{return res}});
+    console.log('waiting...');
+    this.getDataNodes().then(res => {
+      console.log('waiting inside the loop.. BEFORE');
+      console.dir(this.chartOptions.series[0]['data']);
+
+      this.chartOptions.series[0]['data'] = [];
+      this.chartOptions.series = null; //[0]['data'] = res;
+
+      this.chartOptions.series = [
+        {
+          showInLegend: false,
+          allowPointSelect: false,
+          draggable: true,
+          marker: {
+            radius: 30
+          },
+          type: 'networkgraph',
+          dataLabels: {
+            enabled: true
+          },
+          showCheckbox: true,
+          showInNavigator: true,
+          nodes: [],
+          data: res
+        }
+      ];
+
+
+      console.log('waiting inside the loop.. AFTER');
+      console.dir(this.chartOptions.series[0]['data']);
+
+      // Highcharts.chart(this.chartOptions).update(this.chartOptions, true);
+
+      return res;
+    });
+
+    // this.getCounts().then((val) => { this.chartData = val; this.createChart(); console.log('getcounts done'); });
+
+    var myDataList = [];
+    return myDataList
+
+  }
+
+
+  async getDataNodes() {
+
+    this.queryText = 'PRO-15';
+
+
+    // var myDataList = [
+    //     ["PRO-13", "Purpose"],
+    //     ["PRO-13", "1. Requirements"]
+    // ];
+
+
+    var myQuery = `{
+    "query": {
+      "query": "tsg:documentNumber:',${this.queryText},'"
+    },
+    "include": ["aspectNames", "properties"]
+  }`;
+
+    const headers = new HttpHeaders()
+      .set("Content-Type", "application/json")
+      .set("Authorization", "Basic ZGVtbzpkZW1v");
+
+    // console.log(">>> ", this.globalSearchUrl);
+    // console.log(">>> ", myQuery);
+    // console.log(">>> ", headers);
+
+    const response = await this.http.post<any>(this.globalSearchUrl, myQuery, { headers }).toPromise();
+    const referenceDocsProperty = response['list']['entries'][0]['entry']['properties']['tsg:referenceDocuments'];
+
+    // this.http.post<any>(this.globalSearchUrl, myQuery, { headers }).subscribe((res: any[]) => {
+    //   setTimeout(() => {
+    //     var properties = res['list']['entries'][0]['entry']['properties'];
+    //     var referenceDocsProperty = properties['tsg:referenceDocuments'];
+
+    const myDataList = [];
+    referenceDocsProperty.forEach(element => {
+      myDataList.push([this.queryText, element]);
+    });
+
+    this.mySmokeData = myDataList;
+
+    //     console.dir(myDataList);
+
+    //   }, 500);
+    // });
+
+    return myDataList;
+
+
+
+
+
+
+
+    // return [
+    //   ["PRO-13", "Purpose"],
+    //   ["PRO-13", "1. Requirements"]
+    // ];
+
+  }
+
+
+
+  fetchData() {
+    console.log(this.queryText);
+
+    // this.fetchDocumentData().then((val) => { this.chartData = val; this.createChart(); console.log('getcounts done'); });
+
+    this.findDocumentByDocumentNumberQuery = `{
+      "query": {
+        "query": "tsg:documentNumber:',${this.queryText},'"
+      },
+      "include": ["aspectNames", "properties"]
+    }`;
+
+    this.fetchDocumentData();
+
+  }
+
+
+  async fetchDocumentData() {
+    const headers = new HttpHeaders()
+      .set("Content-Type", "application/json")
+      .set("Authorization", "Basic ZGVtbzpkZW1v");
+
+    const documents = await this.http.post(this.globalSearchUrl, this.findDocumentByDocumentNumberQuery, { headers }).toPromise();
+    const docCount = documents['list']['pagination']['count'];
+    var properties = documents['list']['entries'][0]['entry']['properties'];
+    var referenceDocuments = properties['tsg:referenceDocuments'];
+
+
+    console.log('# of Documents Returned = ', docCount);
+    console.dir(referenceDocuments);
+
+    referenceDocuments.forEach(docNumber => {
+      this.chartOptions.series[0]['nodes'].push({
+        'id': docNumber,
+        'color': Highcharts.getOptions().colors[8],
+        'isRoot': false,
+        'isLeaf': true,
+        'visible': true,
+        'nodeId': ''//this.fetchNodeId(refDoc.id)
+      });
+      this.chartOptions.series[0]['data'].push(
+        [this.queryText, docNumber]
+      );
+      this.chartOptions.series[0]['data'] = [["POL-1", "PRO-127"]];
+
+      console.dir(this.chartOptions.series[0]);
+
+      //this.chartOptions.
+
+      console.log('Nodes Length >> ' + this.chartOptions.series[0]['nodes']?.length);
+      console.log('Data Length >> ' + this.chartOptions.series[0]['data']?.length);
+    });
+  }
+
+
+  async fetchNodeId(docNumber) {
+
+    this.findNodeIdByDocumentNumberQuery = `{
+      "query": {
+        "query": "tsg:documentNumber:',${docNumber},'"
+      }
+    }`;
+
+    const headers = new HttpHeaders()
+      .set("Content-Type", "application/json")
+      .set("Authorization", "Basic ZGVtbzpkZW1v");
+
+    const documents = await this.http.post(this.globalSearchUrl, this.findNodeIdByDocumentNumberQuery, { headers }).toPromise();
+    return documents['list']['entries'][0]['entry']['id'];
+
+  }
+
+
+
+
+}
+
+

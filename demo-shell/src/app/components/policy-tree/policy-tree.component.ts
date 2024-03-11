@@ -169,7 +169,7 @@ export class PolicyTreeComponent {
     }
 
     getDocumentLink() {
-        //http://ec2-54-211-132-149.compute-1.amazonaws.com/ocms/Stage/controlleddocs/workspace://SpacesStore/5fe21715-e1fd-4c17-9ba8-59a01f2d8df7%7Cworkspace://SpacesStore/2ee12e44-ba08-4d61-adbe-d4274106475d
+        //http://ec2-54-152-185-130.compute-1.amazonaws.com/ocms/Stage/controlleddocs/workspace://SpacesStore/5fe21715-e1fd-4c17-9ba8-59a01f2d8df7%7Cworkspace://SpacesStore/2ee12e44-ba08-4d61-adbe-d4274106475d
     }
 
     getColumnContent(element, column) {

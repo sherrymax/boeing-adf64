@@ -1,0 +1,30 @@
+<div id="container-for-custom-input" class="app-search-extended-input-containers-normal"
+    style="max-width:100vw; display: inline-block">
+    <mat-form-field appearance="outline" style="width:50em; padding-left:50px; padding-top:15px">
+        <!-- <label class="myLabelStyle">Search for content using AWS Kendra</label> -->
+        <mat-label>Search for a Writing</mat-label>
+        <!-- <input type="text" matInput id="custom-input" [(ngModel)]="searchedWord" [searchAutocomplete]="auto"> -->
+        <input type="text" matInput id="custom-input" (keydown.enter)="fetchData()" [(ngModel)]="queryText" />
+        <mat-icon matSuffix>search</mat-icon>
+        <!-- <mat-hint>Hint</mat-hint> -->
+    </mat-form-field>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+     <!-- <mat-form-field appearance="outline" style="position:relative; width:30em; padding-top:15px">
+        <mat-label>Data Sources</mat-label>
+        <mat-select #selectedDataSource [formControl]="dataSources" multiple>
+            <mat-select-trigger>
+                <span> {{dataSource.Type}} </span>
+            </mat-select-trigger>
+            <mat-option *ngFor="let dataSource of dataSourceList" [value]="dataSource">
+                <img width="40" height="40" [src]="dataSource['logoURL']"/>
+                 {{dataSource['Type']}} - {{dataSource['Name']}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>  -->
+</div>
+
+<highcharts-chart [Highcharts]="Highcharts" [options]="chartOptions" >
+
+</highcharts-chart>
+
+<!-- style="width: 100%; height: 1500px; display: block;" -->
