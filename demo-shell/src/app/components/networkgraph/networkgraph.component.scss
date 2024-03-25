@@ -2,7 +2,25 @@
   stroke-dasharray: 2;
 }
 
+mat-tab-label {
+  font-size: 25px !important;
+}
+
+mat-icon:hover {
+  background-color: orange;
+}
+
 // CSS for Spinner - START
+
+.myTitle {
+  width: 95%;
+  padding-left: 30.5%;
+  padding-right: 30%;
+  margin-top: -2%;
+  font-size: 1em;
+  font-style: italic;
+
+}
 
 .cssload-container {
   position: fixed;

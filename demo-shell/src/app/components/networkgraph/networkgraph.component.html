@@ -1,15 +1,34 @@
 <div id="container-for-custom-input" class="app-search-extended-input-containers-normal"
     style="max-width:100%; display: grid">
-    <mat-form-field appearance="outline" style="width:100%; padding-left:30%; padding-right:30%; padding-top:15px">
+    <mat-form-field appearance="outline" style="width:95%; padding-left:30%; padding-right:30%; padding-top:15px">
         <!-- <label class="myLabelStyle">Search for content using AWS Kendra</label> -->
         <mat-label>Search for a Writing</mat-label>
         <!-- <input type="text" matInput id="custom-input" [(ngModel)]="searchedWord" [searchAutocomplete]="auto"> -->
-        <input type="text" matInput id="custom-input" (keydown.enter)="fetchData()" [(ngModel)]="queryText" />
-        <mat-icon matSuffix>search</mat-icon>
-        <!-- <mat-hint>Hint</mat-hint> -->
-    </mat-form-field>
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-     <!-- <mat-form-field appearance="outline" style="position:relative; width:30em; padding-top:15px">
+        <table>
+            <tr>
+                <td>
+                    <input type="text" matInput id="custom-input" (keydown.enter)="fetchData()"
+                        [(ngModel)]="queryText" />
+                </td>
+                <td width="15%">
+                    <div style="display:flex; align-content: right;">
+                        <mat-icon matSuffix (click)="fetchData()">search</mat-icon> &nbsp;
+                        <mat-icon matSuffix (click)="reload()">refresh</mat-icon>&nbsp;
+                        <mat-icon matSuffix (click)="openinnewwindow()" style="cursor:pointer;">open_in_new</mat-icon>&nbsp;
+                        <mat-icon matSuffix (click)="routeToPolicyTree()" style="cursor:pointer;">account_tree</mat-icon>&nbsp;
+                    </div>
+                </td>
+            </tr>
+        </table>
+<!-- <mat-hint>Hint</mat-hint> -->
+
+</mat-form-field>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <div *ngIf="title" class="myTitle">
+        <b>TITLE: </b>{{title}}
+    </div>
+
+<!-- <mat-form-field appearance="outline" style="position:relative; width:30em; padding-top:15px">
         <mat-label>Data Sources</mat-label>
         <mat-select #selectedDataSource [formControl]="dataSources" multiple>
             <mat-select-trigger>
@@ -29,18 +48,18 @@
 
 <!-- <div style="overflow-x: scroll;"> -->
 <mat-tab-group *ngIf="showResultsArea" mat-stretch-tabs>
-    <mat-tab label="Network Graph"> 
+    <mat-tab label="Writings - Interconnectivity">
         <highcharts-chart [Highcharts]="Highcharts" [options]="chartOptions_network" [(update)]="updateFlag">
-        </highcharts-chart> 
+        </highcharts-chart>
     </mat-tab>
-    <mat-tab label="Section Graph"> 
+    <mat-tab label="Sections">
         <highcharts-chart [Highcharts]="Highcharts" [options]="chartOptions_section" [(update)]="updateFlag">
-        </highcharts-chart> 
+        </highcharts-chart>
     </mat-tab>
-  </mat-tab-group>
- <!-- </div>  -->
+</mat-tab-group>
+<!-- </div>  -->
 
- <!-- <highcharts-chart [Highcharts]="Highcharts" [options]="chartOptions2" [(update)]="updateFlag" >
+<!-- <highcharts-chart [Highcharts]="Highcharts" [options]="chartOptions2" [(update)]="updateFlag" >
 </highcharts-chart>  -->
 
 <!-- <button mat-raised-button (click)="buttonClicked()">Click Me</button> -->

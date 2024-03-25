@@ -1,4 +1,5 @@
 import { Component, OnInit, OnChanges, AfterViewInit } from '@angular/core';
+import { AppConfigService } from '@alfresco/adf-core';
 import * as Highcharts from 'highcharts';
 import HC_networkgraph from 'highcharts/modules/networkgraph';
 HC_networkgraph(Highcharts);
@@ -13,13 +14,12 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 })
 export class NetworkgraphComponent implements OnInit, OnChanges, AfterViewInit {
 
-  constructor(private http: HttpClient) {
-
+  constructor(private http: HttpClient, private appConfig: AppConfigService) {
+    
   }
 
-  acsHostName = 'http://ec2-54-152-185-130.compute-1.amazonaws.com';
+  acsHostName = this.appConfig.get<string>('BASE_URL'); 
   globalSearchUrl = this.acsHostName + "/alfresco/api/-default-/public/search/versions/1/search";
-  // globalSearchUrl = "http://rwilds741.alfdemo.com/alfresco/api/-default-/public/search/versions/1/search";
 
   updateFlag = false;
   previouslyClickedNode = "";
@@ -31,8 +31,9 @@ export class NetworkgraphComponent implements OnInit, OnChanges, AfterViewInit {
 
   Highcharts: typeof Highcharts = Highcharts;
 
+
   chartOptions_network: Highcharts.Options = {
-    colors: ['#058DC7', '#50B432', '#ED561B', '#DDDF00', '#24CBE5', '#64E572', '#FF9655', '#FFF263', '#6AF9C4'],
+    colors: ['#058DC7', '#50B432', '#287a05', '#DDDF00', '#24CBE5', '#64E572', '#FF9655', '#FFF263', '#6AF9C4'],
     title: {
       text: "Boeing Writings - Network Graph Diagram"
     },
@@ -128,8 +129,8 @@ export class NetworkgraphComponent implements OnInit, OnChanges, AfterViewInit {
               this.chartOptions_network.series[0]['nodes'].forEach(
                 elem => {
                   if(elem.id == $event.point['id']) {
-                    elem.marker = { lineColor: "purple", lineWidth: 3 };
-                    elem.color = Highcharts.getOptions().colors[5];
+                    elem.marker = { lineColor: "blue", lineWidth: 3 };
+                    elem.color = Highcharts.getOptions().colors[2];
                   }
                   if(elem.id == this.previouslyClickedNode){
                     elem.marker = {};
@@ -228,7 +229,7 @@ export class NetworkgraphComponent implements OnInit, OnChanges, AfterViewInit {
 
 
 
-
+  title: string;
   queryText: string;
   showResultsArea = false;
   showSpinner = false;
@@ -454,6 +455,9 @@ export class NetworkgraphComponent implements OnInit, OnChanges, AfterViewInit {
         // var nodeId = entries[0]['entry']['id'];
         // this.nodeMap.set(nodeName, nodeId);
 
+        this.title = entries[0]['entry']['properties']['cm:title'];
+        console.log('>>> TITLE >>>', this.title);
+
         const referenceDocsProperty = entries[0]['entry']['properties']['tsg:referenceDocuments'];
         if (referenceDocsProperty) {
           referenceDocsProperty.forEach(nodeName => {
@@ -565,8 +569,20 @@ export class NetworkgraphComponent implements OnInit, OnChanges, AfterViewInit {
         console.log("Adding >> ", element)
         this.chartOptions_section.series[0]['data'].push(element);
       }
-
     });
+  }
+
+  openinnewwindow(){
+    console.log(">>> openinnewwindow >>>");
+    window.open("http://localhost:3000/#/boeing-network");
+  }
+
+  reload(){
+    this.fetchData();
+  }
+
+  routeToPolicyTree(){
+    window.open("http://localhost:3000/#/policy-tree");
   }
 
 }
