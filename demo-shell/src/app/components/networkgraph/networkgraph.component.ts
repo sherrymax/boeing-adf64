@@ -22,7 +22,8 @@ export class NetworkgraphComponent implements OnInit, OnChanges, AfterViewInit {
   globalSearchUrl = this.acsHostName + "/alfresco/api/-default-/public/search/versions/1/search";
 
   updateFlag = false;
-  previouslyClickedNode = "";
+  previouslyClickedNetworkNode = "";
+  previouslyClickedSectionNode = "";
   graphData_network = [];
   graphData_section = [];
   graphData_L1_section = [];
@@ -132,13 +133,13 @@ export class NetworkgraphComponent implements OnInit, OnChanges, AfterViewInit {
                     elem.marker = { lineColor: "blue", lineWidth: 3 };
                     elem.color = Highcharts.getOptions().colors[2];
                   }
-                  if(elem.id == this.previouslyClickedNode){
+                  if(elem.id == this.previouslyClickedNetworkNode){
                     elem.marker = {};
                     elem.color = Highcharts.getOptions().colors[10];
                   }
                 }
               );
-              this.previouslyClickedNode = $event.point['id'];
+              this.previouslyClickedNetworkNode = $event.point['id'];
             }
           }
         }
@@ -218,6 +219,9 @@ export class NetworkgraphComponent implements OnInit, OnChanges, AfterViewInit {
             click: ($event) => {
               console.log('CLICKED !!! - thanks to the Custom Events plugin >> ', $event.point['id']);
               this.drillDownSectionNode($event.point['id']);
+
+              this.updateFlag = true;
+              this.previouslyClickedSectionNode = $event.point['id'];
             }
           }
         }
