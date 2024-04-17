@@ -1,7 +1,7 @@
 name: Upstream js
 on:
   schedule:
-    - cron: '0 */3 * * *' # “At minute 0 past every 3rd hour.”
+    - cron: '0 */23 * * *' # “At minute 0 past every 3rd hour.”
   workflow_dispatch:
     inputs:
       tag_version:
